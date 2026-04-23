@@ -2,16 +2,15 @@ package at.asitplus.wallet.healthid
 
 import at.asitplus.signum.indispensable.cosef.io.coseCompliantSerializer
 import at.asitplus.wallet.lib.data.vckJsonSerializer
+import de.infix.testBalloon.framework.core.testSuite
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.provided.randomInstant
-import io.kotest.provided.randomString
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 
 @OptIn(ExperimentalSerializationApi::class)
-class SdJwtSerializationTest : FunSpec({
+val SdJwtSerializationTest by testSuite {
 
     test("serialize credential") {
         val credential = HealthID(
@@ -36,4 +35,4 @@ class SdJwtSerializationTest : FunSpec({
         coseCompliantSerializer.decodeFromByteArray<HealthID>(cbor) shouldBe credential
     }
 
-})
+}

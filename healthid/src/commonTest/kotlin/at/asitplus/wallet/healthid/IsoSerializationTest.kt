@@ -1,33 +1,27 @@
 package at.asitplus.wallet.healthid
 
-import at.asitplus.iso.DeviceKeyInfo
-import at.asitplus.iso.IssuerSignedItem
-import at.asitplus.iso.IssuerSignedItemSerializer
-import at.asitplus.iso.ValidityInfo
-import at.asitplus.iso.ValueDigest
-import at.asitplus.iso.ValueDigestList
+import at.asitplus.iso.*
 import at.asitplus.signum.indispensable.cosef.*
 import at.asitplus.signum.indispensable.cosef.io.coseCompliantSerializer
 import at.asitplus.signum.supreme.sign.EphemeralKey
 import at.asitplus.signum.supreme.signature
+import at.asitplus.testballoon.invoke
+import at.asitplus.testballoon.minus
+import at.asitplus.testballoon.withData
 import at.asitplus.wallet.healthid.HealthIdScheme.Attributes
 import at.asitplus.wallet.lib.agent.SubjectCredentialStore
 import at.asitplus.wallet.lib.data.CredentialToJsonConverter
-import at.asitplus.wallet.lib.iso.*
+import de.infix.testBalloon.framework.core.testSuite
 import io.kotest.assertions.withClue
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.datatest.withData
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.kotest.provided.randomInstant
-import io.kotest.provided.randomString
 import kotlinx.serialization.json.JsonObject
 import kotlin.random.Random
 import kotlin.random.nextUInt
 import kotlin.time.Clock
 
-class IsoSerializationTest : FreeSpec({
+val IsoSerializationTest by testSuite {
 
     "Serialization and deserialization" - {
         withData(nameFn = { "for ${it.key}" }, dataMap().entries) {
@@ -52,7 +46,7 @@ class IsoSerializationTest : FreeSpec({
         }
     }
 
-    "Serialization to JSON Element" {
+    test("Serialization to JSON Element") {
         val mso = MobileSecurityObject(
             version = "1.0",
             digestAlgorithm = "SHA-256",
@@ -87,7 +81,7 @@ class IsoSerializationTest : FreeSpec({
             }
         }
     }
-})
+}
 
 private fun Map.Entry<String, Any>.toIssuerSignedItem() =
     IssuerSignedItem(Random.nextUInt(), Random.nextBytes(32), key, value)
